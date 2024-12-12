@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Posts from '../../components/Posts/Posts';
 import Form from '../../components/Form/Form';
 import { MuiChipsInput, MuiChipsInputChip } from 'mui-chips-input'
+import { apis } from '../../store/apis';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -12,18 +13,18 @@ function useQuery() {
 
 const Home = () => {
   const [currentId, setCurrentId] = useState(0);
-  const [ search,setSearch ] = useState('');
-  const [ tags,setTags ] = useState<any>([]);
+  const [ search, setSearch ] = useState('');
+  const [ tags, setTags ] = useState<any>([]);
 
   const dispatch = useDispatch();
   const query = useQuery();
   const history = useNavigate();
-  const page = query.get('page') || 1;
+  const page = Number(query.get('page')) || 1;
   const searchQuery = query.get('searchQuery');
 
   const searchPost = () => {
     if(search.trim() || tags) {
-    //    dispatch(getPostBySearch({ search, tags: tags.join(',') }));
+       dispatch(apis.getPostBySearch({ search, tags: tags.join(',') }) as any);
        history(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
     } else {
       history('/')
@@ -81,11 +82,11 @@ const Home = () => {
                         </Button>
                     </AppBar>
                     <Form currentId={currentId} setCurrentId={setCurrentId} />
-                    {/* {(!searchQuery && !tags.length) && (
+                    {(!searchQuery && !tags.length) && (
                         <Paper elevation={6} className='rounded-[4px] mt-[1rem] p-[16px]'>
                             <Pagination page={page}/>
                         </Paper>
-                    )} */}
+                    )}
                 </Grid>
             </Grid>
         </Container>

@@ -19,11 +19,13 @@ const Posts = ({ setCurrentId }: any) => {
     dispatch(apis?.getPosts('1') as any)
   }, []);
 
+  console.log(posts, '2=2=2=2=2=2=2==2=2=2=2=')
+
   return (
     fetching ? <CircularProgress /> : (
         <Grid className='flex items-center' container alignItems="stretch" spacing={3}>
           {posts.map((post: any) => (
-            <Grid key={post._id} item xs={12} sm={12} md={6} lg={4}>
+            <Grid key={post.id} item xs={12} sm={12} md={6} lg={4}>
               <Post post={post} setCurrentId={setCurrentId} />
             </Grid>
           ))}

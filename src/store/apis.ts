@@ -81,7 +81,8 @@ const getPostBySearch = createAsyncThunk(
     async (searchQuery: any, { rejectWithValue }) => {
       try {
         const response = await api.get(`/posts/search?searchQuery=${searchQuery.search  ||  'none'}&tags=${searchQuery.tags}`);
-        return response.data;
+
+        return response?.data?.data;
       } catch (error: unknown) {
         const axiosError = error as AxiosError;
         return rejectWithValue({ error: axiosError?.response });
@@ -91,13 +92,13 @@ const getPostBySearch = createAsyncThunk(
 
 const createPost = createAsyncThunk(
     "createPost",
-    async (data: { postData: any, token: string }, { rejectWithValue }) => {
+    async (data: { formData: any, token: string }, { rejectWithValue }) => {
       try {
         const headers = {
           'Authorization': `Bearer ${data?.token}`,
         };
 
-        const response = await api.post('/posts', data?.postData, { headers });
+        const response = await api.post('/posts', data?.formData, { headers });
         return response.data;
       } catch (error: unknown) {
         const axiosError = error as AxiosError;

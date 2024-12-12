@@ -39,6 +39,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: '/posts/search',
+        element: <Home />,
+      },
+      {
         path: "/auth",
         element: (
           <ProtectedRoute>
